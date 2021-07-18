@@ -27,16 +27,7 @@ function HeaderComponent() {
                     <SearchBar />
                 </ColTop>
             </RowTop>
-            <Modal
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                        Return
-                    </Button>,
-                ]}
-                title="Implemented features"
-                visible={isModalVisible}
-                onCancel={handleCancel}
-                onOk={handleCancel}>
+            <Modal title="Implemented features" visible={isModalVisible} onCancel={handleCancel} onOk={handleCancel}>
                 <h2>Implemented Features</h2>
                 <ul>
                     <li>Infinite scroll using Javascript's IntersectionObserver</li>
