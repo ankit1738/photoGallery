@@ -60,6 +60,7 @@ function SearchBar() {
                 localStorage.setItem("isDefaultScreen", false);
                 localStorage.setItem("searchText", searchText);
                 localStorage.setItem("page1", 2);
+                window.scrollTo(0, 0);
             });
             setLoadingSearch(false);
         } else {
