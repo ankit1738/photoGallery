@@ -11,7 +11,6 @@ function Gallery() {
     const [gallery, setGallery] = useState([]);
     const [page1, setPage1] = useState(2);
     const [page2, setPage2] = useState(2);
-    const [isDefaultScreen, setIsDefaultScreen] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const loadingIcon = <LoadingOutlined style={{ fontSize: 100 }} spin />;
@@ -21,11 +20,6 @@ function Gallery() {
         console.log("Rendring Gallery", photos);
         setGallery(photos);
     }, [photos]);
-
-    useEffect(() => {
-        setIsDefaultScreen(localStorage.getItem("isDefaultScreen"));
-        // setSearchTextLocal();
-    }, []);
 
     /** Intersection Observer for infintie scroll */
     const observer = useRef();
@@ -48,21 +42,17 @@ function Gallery() {
         if (target.isIntersecting && hasMore) {
             let url;
             setLoading(true);
-            console.log(isDefaultScreen);
-            if (isDefaultScreen) {
-                url = `${DEFAULT_URL}&page=${localStorage.getItem("page2")}`;
-            } else {
-                url = `${PHOTO_SEARCH}&text=${localStorage.getItem(
-                    "searchText"
-                )}&per_page=10&page=${localStorage.getItem("page1")}`;
-            }
+            url = `${PHOTO_SEARCH}&text=${localStorage.getItem("searchText")}&per_page=10&page=${localStorage.getItem(
+                "page1"
+            )}`;
+
             axios
                 .get(url)
                 .then((res) => {
-                    setGallery(gallery.concat(res.data.photos.photo));
-                    isDefaultScreen
-                        ? localStorage.setItem("page2", res.data.photos.page + 1)
-                        : localStorage.setItem("page1", res.data.photos.page + 1);
+                    setGallery((prev) => prev.concat(res.data.photos.photo));
+                    localStorage.getItem("isDefaultScreen")
+                        ? localStorage.setItem("page1", res.data.photos.page + 1)
+                        : localStorage.setItem("page2", res.data.photos.page + 1);
                     if (res.data.photos.perpage * res.data.photos.page > res.data.photos.page.total) {
                         setHasMore(false);
                     }
@@ -87,7 +77,7 @@ function Gallery() {
             <div style={{ height: "150px" }}></div>
             <Row>
                 {gallery?.map((data, index) => (
-                    <Col key={data.id} xs={24} sm={24} md={12} lg={12} xl={8}>
+                    <Col key={data.id + data.owner} xs={24} sm={24} md={12} lg={12} xl={8}>
                         {index + 1 === gallery.length ? (
                             <StyledImg
                                 onClick={() => openModal(data)}
