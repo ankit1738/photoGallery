@@ -17,7 +17,6 @@ function Gallery() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentImage, setCurrentImage] = useState("");
     useEffect(() => {
-        console.log("Rendring Gallery", photos);
         setGallery(photos);
     }, [photos]);
 

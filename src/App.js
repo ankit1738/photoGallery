@@ -8,9 +8,6 @@ import { createContext, useState, useEffect } from "react";
 export const Context = createContext();
 
 function App() {
-    useEffect(() => {
-        console.log("Rendering Appjs", process.env.REACT_APP_API_KEY);
-    }, []);
     const [photos, setPhotos] = useState([]);
 
     return (

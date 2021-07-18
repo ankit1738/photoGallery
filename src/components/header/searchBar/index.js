@@ -19,7 +19,6 @@ function SearchBar() {
     /** calling default url in the beginning  */
     useEffect(() => {
         axios.get(`${DEFAULT_URL}&page=1`).then((res) => {
-            console.log(res.data);
             setPhotos(res.data.photos.photo);
             localStorage.setItem("isDefaultScreen", true);
             localStorage.setItem("page2", 2);
@@ -44,14 +43,11 @@ function SearchBar() {
 
     const onSearch = debounce(function (searchText) {
         setLoadingSearch(true);
-        console.log(searchText.length);
         if (searchText.length > 0) {
             const url = `${PHOTO_SEARCH}&text=${searchText}&per_page=10&page=1`;
             axios.get(url).then((res) => {
-                console.log(res.data);
                 setPhotos(res.data.photos.photo);
                 const suggestions = JSON.parse(localStorage.getItem("suggestions") || "[]");
-                console.log(suggestions);
                 suggestions.unshift({ value: searchText });
                 suggestions.length = suggestions.length > 5 ? 5 : suggestions.length;
                 localStorage.setItem("suggestions", JSON.stringify(suggestions));
@@ -74,9 +70,7 @@ function SearchBar() {
         setOptions([]);
     };
 
-    const search = () => {
-        console.log("here");
-    };
+    const search = () => {};
 
     return (
         <>
