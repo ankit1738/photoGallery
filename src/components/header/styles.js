@@ -27,4 +27,7 @@ export const StyledButton = styled(Button)`
     position: absolute;
     right: 0;
     top: 50%;
+    @media (max-width: 800px) {
+        display: none;
+    }
 `;
